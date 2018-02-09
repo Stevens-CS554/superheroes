@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import Axios from "axios";
+import { searchForSuperheroes } from "./utility/marvelApi";
+
 import SuperHeroList from "./SuperHeroList";
 
 class SuperHeroListContainer extends Component {
@@ -11,16 +12,9 @@ class SuperHeroListContainer extends Component {
     };
   }
 
-  async getSearchResults(query) {
-    const url = `https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=${query}&apikey=edcaab04376e3dd7e094ec9c12e7fcdd`;
-    const httpResponse = await Axios.get(url);
-
-    return httpResponse.data.data.results;
-  }
-
   componentDidMount = async props => {
     if (this.props.superHero) {
-      const matches = await this.getSearchResults(this.props.superHero);
+      const matches = await searchForSuperheroes(this.props.superHero);
       this.setState({
         listOfMatchingHeroes: matches
       });
@@ -29,10 +23,7 @@ class SuperHeroListContainer extends Component {
 
   componentWillReceiveProps = async newProps => {
     if (newProps.superHero && newProps.superHero !== this.props.superHero) {
-      const matches = await this.getSearchResults(
-        newProps.superHero,
-        newProps.orderById
-      );
+      const matches = await searchForSuperheroes(newProps.superHero);
 
       this.setState({
         listOfMatchingHeroes: matches
