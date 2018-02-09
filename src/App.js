@@ -19,8 +19,6 @@ class App extends Component {
   };
 
   render() {
-    const toUpper = x => x.toUpperCase();
-
     return (
       <div className="App">
         <div className="container">
