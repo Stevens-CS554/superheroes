@@ -5,7 +5,8 @@ class SearchForm extends Component {
     super(props);
 
     this.state = {
-      searchQuery: ""
+      searchQuery: "",
+      orderById: false
     };
   }
 
@@ -13,8 +14,14 @@ class SearchForm extends Component {
     e.preventDefault();
 
     if (this.state.searchQuery) {
-      this.props.onSearch(this.state.searchQuery);
+      this.props.onSearch(this.state.searchQuery, this.state.orderById);
     }
+  };
+
+  toggleNameOrdering = e => {
+    this.setState({
+      orderById: e.target.checked
+    });
   };
 
   onSearchQueryChange = e => {
@@ -42,6 +49,16 @@ class SearchForm extends Component {
           <small id="superheroHelp" className="form-text text-muted">
             Everyone has a favorite superhero; which do you want to search for?
           </small>
+        </div>
+        <div className="form-group">
+          <label>
+            <input
+              type="checkbox"
+              checked={this.state.orderById}
+              onChange={this.toggleNameOrdering}
+            />
+            Order results by id
+          </label>
         </div>
         <button type="submit" className="btn btn-primary">
           Search for superhero

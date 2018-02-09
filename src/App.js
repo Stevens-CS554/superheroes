@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SearchForm from "./SearchForm";
-import SuperHeroList from "./SuperHeroList";
+import SuperHeroListContainer from "./SuperHeroListContainer";
 
 import "./App.css";
 
@@ -8,13 +8,15 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      superHero: ""
+      superHero: "",
+      orderById: false
     };
   }
 
-  onSearch = searchQuery => {
+  onSearch = (searchQuery, orderById) => {
     this.setState({
-      superHero: searchQuery
+      superHero: searchQuery,
+      orderById: orderById
     });
   };
 
@@ -27,7 +29,10 @@ class App extends Component {
               <SearchForm onSearch={this.onSearch} />
             </div>
             <div className="col-6">
-              <SuperHeroList superHero={this.state.superHero} />
+              <SuperHeroListContainer
+                orderById={this.state.orderById}
+                superHero={this.state.superHero}
+              />
             </div>
           </div>
         </div>
