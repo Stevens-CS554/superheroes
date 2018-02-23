@@ -12,9 +12,13 @@ class SuperHeroListContainer extends Component {
     };
   }
 
-  componentDidMount = async props => {
-    if (this.props.superHero) {
-      const matches = await searchForSuperheroes(this.props.superHero);
+  componentDidMount = async () => {
+    const { match } = this.props;
+    const superHero = match.params.superHeroName;
+
+    if (superHero) {
+      const matches = await searchForSuperheroes(superHero);
+
       this.setState({
         listOfMatchingHeroes: matches
       });
@@ -22,8 +26,14 @@ class SuperHeroListContainer extends Component {
   };
 
   componentWillReceiveProps = async newProps => {
-    if (newProps.superHero && newProps.superHero !== this.props.superHero) {
-      const matches = await searchForSuperheroes(newProps.superHero);
+    const currentMatch = this.props.match;
+    const currentSuperhero = currentMatch.params.superHeroName;
+
+    const newMatch = newProps.match;
+    const newSuperhero = newMatch.params.superHeroName;
+
+    if (newSuperhero && newSuperhero !== currentSuperhero) {
+      const matches = await searchForSuperheroes(newSuperhero);
 
       this.setState({
         listOfMatchingHeroes: matches
@@ -32,7 +42,7 @@ class SuperHeroListContainer extends Component {
   };
 
   render() {
-    if (!this.props.superHero) {
+    if (!this.props.match.params.superHeroName) {
       return <h1>Search for someone</h1>;
     }
 
